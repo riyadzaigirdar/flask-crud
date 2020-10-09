@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Home</title>
+  </head>
+  <body>
+    <h1>Hello home from templates</h1>
+    <!-- name of the employer -->
+    {% if context.name %}
+    <h1>{{ context.name }}</h1>
+    {% endif %}
+    <!-- name of professtion -->
+    {% if context.professtion %}
+    <h1>{{ context.professtion }}</h1>
+    {% endif %}
+    <!-- office name -->
+    {% if context.Office %}
+    <h1>{{ context.Office }}</h1>
+    {% endif %}
+    <!-- skill sets -->
+    <h1>skills set</h1>
+    {% if context.skills %} {% for skill in context.skills %}
+    <h1>{{ skill.name }}</h1>
+    {% endfor %} {% endif %}
+  </body>
+</html>
