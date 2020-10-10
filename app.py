@@ -1,16 +1,32 @@
-from flask import Flask, render_template, request, redirect
+from flask import Flask, render_template, request, redirect, Response, jsonify
 from flask_sqlalchemy import SQLAlchemy
 import json
 
 
 app = Flask(__name__)
 app.config["SQLALCHEMY_DATABASE_URI"] = 'sqlite:///test.db'
+# app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 db = SQLAlchemy(app)
 
-class Post(db.Model):
+class Config():
+    def __init__(self, **args):
+        return super(Post, self).__init__(**args)
+    
+    def save(self):
+        db.session.add(self)
+        db.session.commit()
+        return True
+
+    def delete(self):
+        db.session.delete(self)
+        db.session.commit()
+        return True  
+
+
+class Post(db.Model, Config):
     id = db.Column(db.Integer, primary_key = True)
     author = db.Column(db.String(80), nullable=False)
-    comment = db.Column(db.String(500), nullable=False)
+    comment = db.Column(db.String(500), nullable=False)  
 
     def __repr__(self):
         return "<post: %r>" % self.author
@@ -18,11 +34,13 @@ class Post(db.Model):
 @app.route("/")
 def index():
     # get query
-    print(request.args.get('o'))
-    by = request.query_string # give byte string
-    print(json.dumps(by.decode("utf-8")))
+    # print(request.args.get('o'))
+    # by = request.query_string # give byte string
+    # print(json.dumps(by.decode("utf-8")))
     # pagination
-    comments = Post.query.all()[0:1]
+    # comments = Post.query.all()[0:1]
+    comments = Post.query.all()
+    print(Post.query)
 
     return render_template("index.html", comments=comments)
 
@@ -34,13 +52,30 @@ def sign_page():
 def process_request():
     name = request.form["name"]
     comment = request.form["comment"]
+    new_post = Post(author = name, comment=comment)
+    ok = new_post.save()
+    
+    if ok:
+        return redirect("/")
 
-    new_post = Post(author=name, comment=comment)
+@app.route("/delete/<int:id>", methods=["DELETE"])
+def delete_item(id):
+    obj = Post.query.filter_by(id=int(id))[0]
+    obj.delete()
+    return jsonify({"message": "Item deleted", "code": 200})
 
-    db.session.add(new_post)
+@app.route("/update/<int:id>", methods=["PATCH"])
+def update_item(id):
+    data = request.data.decode("utf-8")
+    data = json.loads(data)
+    new_name = data["name"] if data.get("name") else None
+    new_comment = data["comment"] if data.get("comment") else None
+    obj = Post.query.filter_by(id=int(id))[0]
+
+    obj.author = new_name
+    obj.comment = new_comment
     db.session.commit()
-
-    return redirect("/")
+    return jsonify({"message": "Item update", "code": 200, "item": { "author": obj.author, "comment": obj.comment }})    
 
 @app.route("/home", methods=["GET", "POST"])
 def home():

@@ -37,14 +37,42 @@
         >
       </div>
       {% for comment in comments %}
-      <div class="page-header">
-        <h1>{{comment.author}}</h1>
-      </div>
-      <div class="well">
-        <p>{{comment.comment}}</p>
+      <div>
+        <div class="page-header w-100 d-flex">
+          <h1>{{comment.author}}</h1>
+          <div
+            style="float: right; cursor: pointer"
+            data-id="{{comment.id}}"
+            onclick="deleteItem.call(this)"
+          >
+            Delete
+          </div>
+        </div>
+        <div class="well">
+          <p>{{comment.comment}}</p>
+        </div>
       </div>
       {% endfor %}
     </div>
     <!-- /container -->
+    <script>
+      function deleteItem() {
+        let id = this.getAttribute("data-id");
+        var requestOptions = {
+          method: "DELETE",
+          redirect: "follow",
+        };
+
+        fetch(`http://127.0.0.1:5000/delete/${id}`, requestOptions)
+          .then((response) => response.text())
+          .then((result) => JSON.parse(result))
+          .then((data) => {
+            if (data.code === 200) {
+              this.parentElement.parentElement.remove();
+            }
+          })
+          .catch((error) => console.log("error", error));
+      }
+    </script>
   </body>
 </html>
