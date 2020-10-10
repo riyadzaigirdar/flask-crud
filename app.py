@@ -1,12 +1,18 @@
 from flask import Flask, render_template, request, redirect, Response, jsonify
-from flask_sqlalchemy import SQLAlchemy
+from flask_sqlalchemy import SQLAlchemy, BaseQuery
 import json
 
+class GetOrQuery(BaseQuery):
+    def get_or(self, ident, default=None):
+        print(self.get(ident))
+        print(ident)
+        return self.get(ident) or default
 
 app = Flask(__name__)
 app.config["SQLALCHEMY_DATABASE_URI"] = 'sqlite:///test.db'
-# app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
-db = SQLAlchemy(app)
+app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
+
+db = SQLAlchemy(app, query_class=GetOrQuery)
 
 class Config():
     def __init__(self, **args):
@@ -20,7 +26,11 @@ class Config():
     def delete(self):
         db.session.delete(self)
         db.session.commit()
-        return True  
+        return True
+
+    def get(**kwargs):
+        print(kwargs)
+        return Post.query.filter_by(author="riyadzaigir")  
 
 
 class Post(db.Model, Config):
@@ -40,7 +50,8 @@ def index():
     # pagination
     # comments = Post.query.all()[0:1]
     comments = Post.query.all()
-    print(Post.query)
+
+    # print(Post.get(id=1))
 
     return render_template("index.html", comments=comments)
 
