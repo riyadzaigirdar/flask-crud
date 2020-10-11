@@ -128,7 +128,7 @@ class Post(db.Model):
 
 # DJANGO
 
-3. Configure settings.py file: 
+3.Configure settings.py file: 
 
 DATABASES = {  
  'default' : {
@@ -141,7 +141,7 @@ DATABASES = {
 }
 }
 
-4. Makemigration and Migrate:
+4.Makemigration and Migrate:
 
 (venv)
 
