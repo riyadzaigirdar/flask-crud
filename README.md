@@ -89,7 +89,7 @@ now we can use this info to configure our django and flask app
 
 # CONFIGURE YOUR FLASK OR DJANGO APP WITH RUNNING MYSQL DATABASE
 
-#FLASK
+# FLASK
 
 3. First Install flask_sqlalchemy: 
 
