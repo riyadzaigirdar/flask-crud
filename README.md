@@ -13,34 +13,34 @@ To reset the password
 Follow these steps (can be helpful if you really forget your password and you can try it anytime, even if you're not in the situation at the moment):
 
 Stop mysql
-\$ sudo /etc/init.d/mysql stop
+$ sudo /etc/init.d/mysql stop
 
 Or for other distribution versions:
-\$ sudo /etc/init.d/mysqld stop
+$ sudo /etc/init.d/mysqld stop
 
 Start MySQL in safe mode
-\$ sudo mysqld_safe --skip-grant-tables &
+$ sudo mysqld_safe --skip-grant-tables &
 
 Log into MySQL using root
-\$ mysql -uroot
+$ mysql -uroot
 
 Select the MySQL database to use
-\$ use mysql;
+$ use mysql;
 
 Reset the password
 
 For MySQL version < 5.7
-\$ update user set password=PASSWORD("mynewpassword") where User='root';
+$ update user set password=PASSWORD("mynewpassword") where User='root';
 
 For MySQL 5.7
-\$ update user set authentication_string=password('mynewpassword') where user='root';
+$ update user set authentication_string=password('mynewpassword') where user='root';
 
 Flush the privileges
-\$ flush privileges;
+$ flush privileges;
 
 Restart the server
 
-\$ quit
+$ quit
 
 Stop and start the server again
 
@@ -56,13 +56,13 @@ $ sudo /etc/init.d/mysqld starT
 
 Before creating any database link the socket which will be used by MYSQL
 
-\$ ln -s /var/lib/mysql/mysql.sock /tmp/mysql.sock
+$ ln -s /var/lib/mysql/mysql.sock /tmp/mysql.sock
 
-\$ service mysql restart
+$ service mysql restart
 
 Login with a new password
 
-\$ mysql -u root -p
+$ mysql -u root -p
 
 Create Database
 
@@ -70,7 +70,7 @@ Create Database
 
 Get out of the sql terminal using ctrl+c. Then run the database in localhost using this command.
 
-\$ mysql -h 127.0.0.1 -P 3306 -u root -p db
+$ mysql -h 127.0.0.1 -P 3306 -u root -p db
 // -h means host which is 127.0.0.1 -P(Capital P) means PORT which is 3306, -u is the user which should always be root unless you create a new user and give all the root privilege to that new user. -p(small p) means the database name we want to run our localhost.
 
 our db named database is running on host localhost, port 3306, user root, database name db and password you know of your root user
@@ -82,7 +82,7 @@ now we can use this info to configure our django and flask app
 FLASK:
 
 3. First Install flask_sqlalchemy
-   (venv)\$ pip install flask-sqlalchemy
+   (venv)$ pip install flask-sqlalchemy
 
 4. import SQLALCHEMY in your .py file
    from flask_sqlalchemy import SQLAlchemy
@@ -101,7 +101,7 @@ FLASK:
    body = db.Column(db.String(500))
 
 8. open up the python shell
-   (venv)\$ python
+   (venv)$ python
 
 9. import db from your .py file, in mycase app.py
 
@@ -126,5 +126,8 @@ DATABASES = {
 }
 
 4. Makemigration and Migrate
-   (venv)$ python manage.py makemigrations 
-(venv)$ python manage.py migrate
+(venv)
+
+$ python manage.py makemigrations 
+
+$ python manage.py migrate
