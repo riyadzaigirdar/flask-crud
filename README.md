@@ -89,7 +89,7 @@ now we can use this info to configure our django and flask app
 
 # CONFIGURE YOUR FLASK OR DJANGO APP WITH RUNNING MYSQL DATABASE
 
-FLASK:
+#FLASK
 
 3. First Install flask_sqlalchemy: 
 
@@ -131,14 +131,22 @@ class Post(db.Model):
 3.Configure settings.py file: 
 
 DATABASES = {  
+
  'default' : {
+ 
 'ENGINE': 'django.db.backends.mysql',
+
 'NAME': 'db', <--your database name
+
 'USER': 'root',
+
 'PASSWORD': 'your_password',
+
 'HOST': 'localhost',  
+
  'PORT': '3306',
-}
+
+  }
 }
 
 4.Makemigration and Migrate:
