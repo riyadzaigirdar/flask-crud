@@ -12,29 +12,37 @@ To reset the password:
 Follow these steps (can be helpful if you really forget your password and you can try it anytime, even if you're not in the situation at the moment):
 
 Stop mysql:
+
 $ sudo /etc/init.d/mysql stop
 
 Or for other distribution versions:
+
 $ sudo /etc/init.d/mysqld stop
 
 Start MySQL in safe mode:
+
 $ sudo mysqld_safe --skip-grant-tables &
 
 Log into MySQL using root:
+
 $ mysql -uroot
 
 Select the MySQL database to use:
+
 $ use mysql;
 
 Reset the password:
 
 For MySQL version < 5.7:
+
 $ update user set password=PASSWORD("mynewpassword") where User='root';
 
 For MySQL 5.7:
+
 $ update user set authentication_string=password('mynewpassword') where user='root';
 
 Flush the privileges:
+
 $ flush privileges;
 
 Restart the server:
@@ -44,10 +52,12 @@ $ quit
 Stop and start the server again:
 
 Ubuntu and Debian:
+
 $ sudo /etc/init.d/mysql stop
 $ sudo /etc/init.d/mysql start
 
 On CentOS, Fedora, and RHEL:
+
 $ sudo /etc/init.d/mysqld stop
 $ sudo /etc/init.d/mysqld starT
 
@@ -70,6 +80,7 @@ Create Database:
 Get out of the sql terminal using ctrl+c. Then run the database in localhost using this command:
 
 $ mysql -h 127.0.0.1 -P 3306 -u root -p db
+
 // -h means host which is 127.0.0.1 -P(Capital P) means PORT which is 3306, -u is the user which should always be root unless you create a new user and give all the root privilege to that new user. -p(small p) means the database name we want to run our localhost.
 
 our db named database is running on host localhost, port 3306, user root, database name db and password you know of your root user
@@ -81,33 +92,39 @@ now we can use this info to configure our django and flask app
 FLASK:
 
 3. First Install flask_sqlalchemy: 
-   (venv)$ pip install flask-sqlalchemy
+
+(venv)$ pip install flask-sqlalchemy
 
 4. import SQLALCHEMY in your .py file: 
-   from flask_sqlalchemy import SQLAlchemy
+
+from flask_sqlalchemy import SQLAlchemy
 
 5. set your app configuration with sqlalchemy and mysql: 
-   app.config["SQLALCHEMY_DATABASE_URI"] = "mysql://<username>:<password>@localhost/<db_name>"
+
+app.config["SQLALCHEMY_DATABASE_URI"] = "mysql://<username>:<password>@localhost/<db_name>"
 
 6. Initialize db: 
-   db = SQLAlchemy(app)
+
+db = SQLAlchemy(app)
 
 7. create a simple model: 
 
-   class Post(db.Model):
+class Post(db.Model):
    id = db.Column(db.Integer, primary_key=True)
    title = db.Column(db.String(100))
    body = db.Column(db.String(500))
 
-8. open up the python shell: 
-   (venv)$ python
+8. open up the python shell:
+
+(venv)$ python
 
 9. import db from your .py file, in mycase app.py: 
 
-   > from app.py import db
+> from app.py import db
 
 10. create the database: 
-    > db.create_all()
+
+> db.create_all()
 
 # DJANGO
 
@@ -124,9 +141,11 @@ DATABASES = {
 }
 }
 
-4. Makemigration and Migrate: 
+4. Makemigration and Migrate:
+
 (venv)
 
 $ python manage.py makemigrations 
+
 
 $ python manage.py migrate
