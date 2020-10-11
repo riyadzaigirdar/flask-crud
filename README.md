@@ -65,6 +65,8 @@ $ sudo /etc/init.d/mysqld starT
 
 Before creating any database link the socket which will be used by MYSQL:
 
+$ sudo systemctl start mariadb
+
 $ ln -s /var/lib/mysql/mysql.sock /tmp/mysql.sock
 
 $ service mysql restart
