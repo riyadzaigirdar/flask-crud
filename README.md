@@ -103,7 +103,7 @@ from flask_sqlalchemy import SQLAlchemy
 
 5. set your app configuration with sqlalchemy and mysql: 
 
-app.config["SQLALCHEMY_DATABASE_URI"] = "mysql://<username>:<password>@localhost/<db_name>"
+app.config["SQLALCHEMY_DATABASE_URI"] = "mysql://username:password@localhost/<db_name>"
 
 6. Initialize db: 
 
