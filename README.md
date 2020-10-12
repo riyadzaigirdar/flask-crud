@@ -159,3 +159,117 @@ $ python manage.py makemigrations
 
 
 $ python manage.py migrate
+
+
+# Some Common queries in MYSQL
+
+start mysql in system kernel
+
+sudo systemctrl start mariadb
+
+To create the database login as root 
+
+mysql -u root -p
+
+Start server with specific database:
+
+mysql -h 127.0.0.1 -P 3306 -u root -p ecoommerce // Cap P for port and small p for database
+
+To create database use following queries:
+
+CREATE DATABASE db;
+
+To List databases:
+
+SHOW DATABASES;
+
+Delete Database:
+
+DROP DATABASE flaskapp;
+
+# specific database query
+
+login to mysql with only root or running server and tell mysql to use that table
+
+use ecommerce;
+
+show table of that ecommerce database 
+
+show tables;
+
+insert into a category table
+
+INSERT INTO category(id, name) VALUES (1, "jobs"), (2, "rape culture"), (3, "babu tumi khaiso"), (4, "HSC auto pass"), (5, "Chatro doing most rapes");
+
+insert into post table
+
+INSERT INTO post(title, body, categories) VALUES
+('TITLE OF POST 1','THIS IS BODY OF POST 1',1),
+('TITLE OF POST 2','THIS IS BODY OF POST 2',2),
+('TITLE OF POST 3','THIS IS BODY OF POST 3',3),
+('TITLE OF POST 4','THIS IS BODY OF POST 4',4),
+('TITLE OF POST 5','THIS IS BODY OF POST 5',5),
+('TITLE OF POST 6','THIS IS BODY OF POST 6',3),
+('TITLE OF POST 7','THIS IS BODY OF POST 7',1);
+
+# important note values should be comma(,) seperated
+
+# you can do additional queries using following queries
+
+1.SELECT name,id FROM category ORDER BY name DESC;
+
+2.SELECT name,id FROM category WHERE id BETWEEN 1 AND 3;
+
+3.SELECT name,id FROM category WHERE name='HSC auto pass' OR name='jobs';
+
+4.SELECT id,name FROM category WHERE name='HSC auto pass';
+
+5.SELECT name FROM employee WHERE employee.dept_code IS NULL;
+
+# DELETE a row from a table
+
+DELETE FROM category WHERE id=7;
+
+6.SELECT emp_id,name,dept_code FROM employee WHERE salary=(SELECT MAX(salary) FROM employee);
+
+# You can query using multiple tables
+
+SELECT id.title, body
+FROM post JOIN category
+ON category.name = "babu tumi khaiso";
+
+7.SELECT departmet.dept_name, COUNT(employee.emp_id)
+FROM departmet JOIN employee
+ON employee.dept_code = departmet.dept_code
+GROUP BY departmet.dept_name;
+
+8.SELECT AVG(salary) FROM employee;
+
+9.13. SELECT department.dept_code, dept_name FROM employee JOIN department
+ON employee.dept_code = department.dept_code GROUP BY( dept_code)
+HAVING AVG(salary) > (SELECT AVG(salary) FROM employee);
+
+10.SELECT employee.name FROM employee WHERE LENGTH(employee.name)=4;
+
+11.SELECT name FROM employee WHERE name LIKE 'm%';
+
+12.SELECT name FROM employee WHERE name LIKE 'a%' or name LIKE 'm%';
+
+13.SELECT name,MAX(salary) as salary FROM employee 
+WHERE salary < (SELECT MAX(salary) from employee);
+
+14.SELECT salary*2  FROM employee 
+WHERE name='aziz';
+
+//third highest
+
+SELECT name,MAX(salary) as salary FROM employee
+WHERE salary < (SELECT MAX(salary) FROM employee WHERE salary < (SELECT MAX(salary) FROM employee));
+
+
+
+
+
+
+
+
