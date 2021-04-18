@@ -1,3 +1,6 @@
+# connect sqlalchemy with server through pymysql
+   [install pymysql](https://stackoverflow.com/questions/22252397/importerror-no-module-named-mysqldb)
+
 # CONFIGURE MYSQL in DJANGO AND FLASK
 
 1.Install mysql globally in your computer using your pc's package manager. In my case, using manjaro(for both django and flask)
